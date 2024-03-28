@@ -2,15 +2,24 @@
 
 namespace Tests\Unit;
 
-use PHPUnit\Framework\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+use App\Models\User;
 
-class ExampleTest extends TestCase
+class UserTest extends TestCase
 {
-    /**
-     * A basic test example.
-     */
-    public function test_that_true_is_true(): void
+    use RefreshDatabase;
+
+    public function test_create_user()
     {
-        $this->assertTrue(true);
+        $user = User::factory()->create([
+            'name' => 'yassine',
+            'email' => 'yassine@example.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $this->assertInstanceOf(User::class, $user);
+        $this->assertEquals('yassine', $user->name);
+        $this->assertEquals('yassine@example.com', $user->email);
     }
 }
